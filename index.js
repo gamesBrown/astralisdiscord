@@ -1,5 +1,7 @@
 const {Client, Intents } = require('discord.js');
 const { token } = require('./config.json');
+const mongoose = require('mongoose');
+const testSchema = require('./test-schema')
 
 
 //New Instance of the Discord Bot Client
@@ -10,6 +12,20 @@ const client = new Client ({ intents : [Intents.FLAGS.GUILDS, Intents.FLAGS.GUIL
 client.once('ready', ()=>{
     console.log('Ready!');
 })
+
+client.on('ready', async ()=>{
+    await mongoose.connect(
+        'mongodb+srv://db_adminPW:yFoDgcCFXftQbjmw@cluster0.hzhxn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+        {}
+    )
+})
+
+setTimeout(async ()=>{
+    await new testSchema({
+        message:'hello world',
+    }).save()
+}, 1000)  
+
 
 client.on("messageCreate", message=>{
     if (message.author.bot) return false;
