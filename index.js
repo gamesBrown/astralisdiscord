@@ -22,14 +22,22 @@ client.on('ready', async ()=>{
 
 setTimeout(async ()=>{
     await new testSchema({
-        message:'hello world',
+        message:'Goodbye World',
     }).save()
 }, 1000)  
 
 
-client.on("messageCreate", message=>{
+client.on("messageCreate", async message=>{
     if (message.author.bot) return false;
-    console.log(`Message from ${message.author.username}: ${message.content}`);
+    
+    const userInput = message.content
+
+    console.log(`Message from ${message.author.username}: ${userInput}`);
+    
+    //You can use this function to write to your database anywhere
+    await new testSchema({
+        message:`${userInput}`,
+    }).save()
     
     const guildId = '810590335557566504'
     const guild = client.guilds.cache.get(guildId)
