@@ -35,9 +35,12 @@ client.on("messageCreate", async message=>{
     console.log(`Message from ${message.author.username}: ${userInput}`);
     
     //You can use this function to write to your database anywhere
-    await new testSchema({
+    //Commented out because it writes everytime you type something
+   /* await new testSchema({
         message:`${userInput}`,
-    }).save()
+    }).save()*/
+
+
     
     const guildId = '810590335557566504'
     const guild = client.guilds.cache.get(guildId)
@@ -52,6 +55,8 @@ client.on("messageCreate", async message=>{
      commands?.create({
         name: 'gping',
         description: 'replies with ping',
+        name: 'roll',
+        description: 'dice roller for world director',
 
     })
 })
@@ -67,9 +72,27 @@ client.on('interactionCreate', async (interaction)=>{
             ephemeral:true,
 
             
+        })}
+    else if (commandName === 'roll'){
+        var dice = {
+            sides: 6,
+            roll: function (){
+                var randomNumber = Math.floor(Math.random() * this.sides) +1;
+                return randomNumber;
+            }
+            
+        }
+        rollResult = dice.roll();
+        interaction.reply({
+            content:`You rolled a ${rollResult}!`,
+            ephemeral:false,
         })
 
-        }
+    }
+    
+
+        
+      
     
 
 })
